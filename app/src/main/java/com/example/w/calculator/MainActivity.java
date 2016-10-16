@@ -1,10 +1,12 @@
 package com.example.w.calculator;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             sin, cos, tan,                //函数
             sqrt, square, bksp,        //根号  平方  退格
             left, right, dot, exit, drg,          //（     ）  .  退出     角度弧度控制键
-            mc, c;                                // mem清屏键    input清屏键
+            mc, c,menu;                                // mem清屏键    input清屏键   菜单键
     //保存原来的算式样子，为了输出时好看，因计算时，算式样子被改变
     public String str_old;
     //变换样子后的式子
@@ -59,15 +61,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-      //判断横竖屏
+
+
+
+        //判断横竖屏
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Log.i("info", "landscape");
             setContentView(R.layout.content_main_land);
@@ -133,6 +130,27 @@ public class MainActivity extends AppCompatActivity {
             Log.i("info", "portrait");
             setContentView(R.layout.activity_main);
 
+
+
+            Button bton=(Button)findViewById(R.id.transfer);
+            bton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MainActivity.this,Transfer.class);
+                    startActivity(intent);
+                }
+            });
+
+
+            Button bon=(Button)findViewById(R.id.transform);
+            bon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(MainActivity.this,Transform.class);
+                    startActivity(intent);
+                }
+            });
+
             //获取界面元素
             input = (EditText) findViewById(R.id.input);
             mem = (TextView) findViewById(R.id.mem);
@@ -166,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             drg = (Button) findViewById(R.id.drg);
             mc = (Button) findViewById(R.id.mc);
             c = (Button) findViewById(R.id.c);
+           menu=(Button)findViewById(R.id.menu);
             //为数字按键绑定监听器
             for (int i = 0; i < 10; ++i) {
                 btn[i].setOnClickListener(actionPerformed);
@@ -189,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
             drg.setOnClickListener(actionPerformed);
             mc.setOnClickListener(actionPerformed);
             c.setOnClickListener(actionPerformed);
+            menu.setOnClickListener(actionPerformed);
         }
+
+
     }
 
     @Override
@@ -209,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        if(id==R.id.action_help){
+            Toast.makeText(this,"这是帮助",Toast.LENGTH_SHORT).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -383,9 +408,13 @@ public class MainActivity extends AppCompatActivity {
                 mem.setText("0");
                 //如果按”exit“则退出程序
             } else if(command.compareTo("exit") == 0) {
+
                 System.exit(0);
                 //如果输入的是=号，并且输入合法
-            } else if(command.compareTo("=") == 0 && tip_lock && right(str) && equals_flag) {
+            } else if(command.compareTo("menu") == 0){
+                openOptionsMenu();
+            }
+            else if(command.compareTo("=") == 0 && tip_lock && right(str) && equals_flag) {
                 tip_i = 0;
                 //表明不可以继续输入
                 tip_lock = false;
@@ -1070,4 +1099,7 @@ public class MainActivity extends AppCompatActivity {
             tip.setText(message+"\n"+"计算完毕，要继续请按归零键 C");
         }
     }
+
+
+
 }

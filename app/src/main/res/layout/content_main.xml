@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -48,7 +49,23 @@
             android:text="   DEG"
             />
 
+        <Button android:id="@+id/menu"
+            android:text="menu"
+            android:layout_width="65sp"
+            android:layout_height="wrap_content"
+            />
 
+        <Button android:id="@+id/transfer"
+            android:text="tran"
+            android:layout_width="65sp"
+            android:layout_height="wrap_content"
+            />
+
+        <Button android:id="@+id/transform"
+            android:text="form"
+            android:layout_width="65sp"
+            android:layout_height="wrap_content"
+            />
 
 
         <!-- 清除输出窗口的所有内容 -->
